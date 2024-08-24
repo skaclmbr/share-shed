@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
+// availableSettings returns ["PRIVATE", "FRIENDS_ONLY", "PUBLIC"]
 /*== STEP 1 ===============================================================
 The section below creates a Thing database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -10,6 +11,17 @@ const schema = a.schema({
   Thing: a
     .model({
       content: a.string(),
+      // location: a.string(),
+      status: a.enum([
+        "AVAILABLE",
+        "LENT",
+        "UNAVAILABLE"
+      ]),
+      // visibility: a.enum([
+      //   "PRIVATE",
+      //   "FRIENDS_ONLY",
+      //   "PUBLIC"
+      // ]),
     })
     .authorization((allow) => [allow.owner()]),
 });
