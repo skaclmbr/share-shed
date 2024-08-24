@@ -7,20 +7,20 @@ import '@aws-amplify/ui-react/styles.css';
 const client = generateClient<Schema>();
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [things, setThings] = useState<Array<Schema["Thing"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+    client.models.Thing.observeQuery().subscribe({
+      next: (data) => setThings([...data.items]),
     });
   }, []);
 
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+  function createThing() {
+    client.models.Thing.create({ content: window.prompt("Thing content") });
   }
   
-  function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+  function deleteThing(id: string) {
+    client.models.Thing.delete({ id })
   }
 
   return (
@@ -28,17 +28,17 @@ function App() {
       {({ signOut, user }) => (
         
     <main>
-      <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      <button onClick={createTodo}>+ new</button>
+      <h1>{user?.signInDetails?.loginId}'s things</h1>
+      <button onClick={createThing}>+ new</button>
       <ul>
-        {todos.map((todo) => (
+        {things.map((thing) => (
           <li
-          onClick={() => deleteTodo(todo.id)} 
-          key={todo.id}>{todo.content}</li>
+          onClick={() => deleteThing(thing.id)} 
+          key={thing.id}>{thing.content}</li>
         ))}
       </ul>
       <div>
-        🥳 App successfully hosted. Try creating a new todo.
+        🥳 App successfully hosted. Try creating a new thing.
         <br />
         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
           Review next step of this tutorial.
