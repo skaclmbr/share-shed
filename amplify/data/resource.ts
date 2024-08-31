@@ -17,6 +17,7 @@ const schema = a.schema({
         "LENT",
         "UNAVAILABLE"
       ]),
+      img_url: a.string() //change to type url for production
       // visibility: a.enum([
       //   "PRIVATE",
       //   "FRIENDS_ONLY",
