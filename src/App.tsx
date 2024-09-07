@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { uploadData } from 'aws-amplify/storage';
+// import { uploadData } from 'aws-amplify/storage';
 import { ThingCreateForm } from '../ui-components';
 import { 
   Authenticator,
   Card,
-  Image,
-  Input,
-  Label,
+  // Image,
+  // Input,
+  // Label,
   View,
   Heading,
   Flex,
