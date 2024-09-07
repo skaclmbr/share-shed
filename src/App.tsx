@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-import { ThingCreateForm } from "../ui-components";
+import { useEffect, useState } from 'react';
+import type { Schema } from '../amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
+import { uploadData } from 'aws-amplify/storage';
+import { ThingCreateForm } from '../ui-components';
 import { 
   Authenticator,
   Card,
@@ -29,29 +30,29 @@ const theme: Theme = {
   tokens: {
     colors: {
       background: {
-        card: { value : "#C3DFE0" },
-        button: { value : "#BCD979"}
+        card: { value : '#C3DFE0' },
+        button: { value : '#BCD979'}
       },
       font: {
-        primary: { value : "#5E574D"},
-        button : { value : "#5E574D"}
+        primary: { value : '#5E574D'},
+        button : { value : '#5E574D'}
       },
       border: {
-        button: { value : "#9DAD6F"}
+        button: { value : '#9DAD6F'}
       }
     },
     fonts: {
       default: {
-        variable: { value: "Raleway, sans-serif" },
-        static: { value: "Raleway, sans-serif"},
+        variable: { value: 'Raleway, sans-serif' },
+        static: { value: 'Raleway, sans-serif'},
       }
     },
     components: {
       button: {
-        borderRadius: { value: "{radii.medium}"},
-        backgroundColor: { value : "{colors.background.button}"},
-        color: { value : "{colors.font.button}" },
-        borderColor : { value : "{colors.border.button}"}
+        borderRadius: { value: '{radii.medium}'},
+        backgroundColor: { value : '{colors.background.button}'},
+        color: { value : '{colors.font.button}' },
+        borderColor : { value : '{colors.border.button}'}
 
       },
       card: {
@@ -75,11 +76,22 @@ const theme: Theme = {
   },
 };
 
+// upload the storage file:
+// const result = await uploadData({
+//   path: `thing-pictures/${thing.id}-${file.name}`,
+//   data: file,
+//   options: {
+
+//   }
+// }).result;
+
 function App() {
 
-  const [tab, setTab] = useState("2");
+  const [tab, setTab] = useState('2');
 
-  const [things, setThings] = useState<Array<Schema["Thing"]["type"]>>([]);
+  const [file, setFile] = useState();
+
+  const [things, setThings] = useState<Array<Schema['Thing']['type']>>([]);
   // const { errors, data: newThing } = await client.models.Thing.create({
   //   content: 
   // })
@@ -93,7 +105,7 @@ function App() {
 
   // function createThing() {
   //   console.log() 
-  //   // client.models.Thing.create({ content: window.prompt("Thing content") });
+  //   // client.models.Thing.create({ content: window.prompt('Thing content') });
   // }
 
  
@@ -102,14 +114,14 @@ function App() {
   }
 
   return (
-      <ThemeProvider theme={theme} colorMode="light">
+      <ThemeProvider theme={theme} colorMode='light'>
     <Authenticator>
       {({ signOut, user }) => (
         
     <main>
 
       <div>
-        <Flex direction = "row" alignItems="flex-start">
+        <Flex direction = 'row' alignItems='flex-start'>
       <h1>{user?.signInDetails?.loginId}'s things</h1>
       <Button onClick={signOut} >Sign out</Button>
       </Flex>
@@ -119,8 +131,8 @@ function App() {
         onValueChange = {(tab) => setTab(tab)}
         items={[
           {
-            label: "Search",
-            value: "1",
+            label: 'Search',
+            value: '1',
             content: (
               <View>
                 Add Search Box Here
@@ -128,36 +140,36 @@ function App() {
             )
           },
           {
-            label: "Library",
-            value: "2",
+            label: 'Library',
+            value: '2',
             content: (<>
-            <View id="create-thing">
+            <View id='create-thing'>
               <ThingCreateForm />;              
             </View>
-            <Flex direction="row" alignItems="flex-start">
+            <Flex direction='row' alignItems='flex-start'>
             {things.map((thing) => (
               <Card
-              variation = "elevated"
+              variation = 'elevated'
               // onClick={() => deleteThing(thing.id)} 
               key={thing.id}>
                 <Flex>
-                  <Badge size = "small" variation = "info">{thing.status}</Badge>
+                  <Badge size = 'small' variation = 'info'>{thing.status}</Badge>
                 </Flex>
                   
-                <Flex direction = "row" alignItems="flex-start">
+                <Flex direction = 'row' alignItems='flex-start'>
                 <Flex 
-                  direction = "column"
-                  alignItems="flex-start"
-                  gap="5px">
+                  direction = 'column'
+                  alignItems='flex-start'
+                  gap='5px'>
                 <Heading level = {5}>{thing.title}</Heading>
                 <Text>{thing.content}</Text>
-                <Flex direction = "row" alignItems="flex-end">
+                <Flex direction = 'row' alignItems='flex-end'>
                 <Button>Borrow</Button>
                 <Button>Lend</Button>
                 <Button>Edit</Button>
                 <Button onClick={()=>deleteThing(thing.id)}>Remove</Button>
                 </Flex>
-              {/* <select name="avail" id="avail">
+              {/* <select name='avail' id='avail'>
                 {statusSettings.map((s) => (
                   <option value={s}>{s}</option>
                 ))}
@@ -169,20 +181,6 @@ function App() {
             )}
             </Flex>
           </>)
-        },
-        {
-          label: "Borrowed",
-          value: "3",
-          content: (
-            <View><Card>Things</Card></View>
-          )
-        },
-        {
-          label: "Lent",
-          value: "4",
-          content: (
-            <View><Card>Things lent out</Card></View>
-          )
         }
         ]
         }

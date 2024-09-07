@@ -1,5 +1,15 @@
-import { defineStorage } from "@aws-amplify/backend";
+import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
-    name: "shareshedDrive"
-})
+    name: 'shareshedDrive',
+    access: (allow) => ({
+        'profile-pictures/{entity_id}/*' : [
+            allow.guest.to(['read']),
+            allow.entity('identity').to(['read', 'write', 'delete'])
+        ],
+        'thing-pictures/*': [
+            allow.authenticated.to(['read', 'write']),
+            allow.guest.to(['read', 'write'])
+        ]
+    })
+});
