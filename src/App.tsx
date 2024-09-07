@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { ThingCreateForm } from "../ui-components";
 import { 
   Authenticator,
   Card,
   Image,
+  Input,
+  Label,
   View,
   Heading,
   Flex,
@@ -12,6 +15,7 @@ import {
   Text,
   Button,
   ThemeProvider,
+  Tabs,
   Theme
  } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -73,7 +77,12 @@ const theme: Theme = {
 
 function App() {
 
+  const [tab, setTab] = useState("2");
+
   const [things, setThings] = useState<Array<Schema["Thing"]["type"]>>([]);
+  // const { errors, data: newThing } = await client.models.Thing.create({
+  //   content: 
+  // })
 
   useEffect(() => {
     client.models.Thing.observeQuery().subscribe({
@@ -81,13 +90,16 @@ function App() {
     });
   }, []);
 
-  function createThing() {
-    client.models.Thing.create({ content: window.prompt("Thing content") });
-  }
-  
-  // function deleteThing(id: string) {
-  //   client.models.Thing.delete({ id })
+
+  // function createThing() {
+  //   console.log() 
+  //   // client.models.Thing.create({ content: window.prompt("Thing content") });
   // }
+
+ 
+  function deleteThing(id: string) {
+    client.models.Thing.delete({ id })
+  }
 
   return (
       <ThemeProvider theme={theme} colorMode="light">
@@ -99,54 +111,82 @@ function App() {
       <div>
         <Flex direction = "row" alignItems="flex-start">
       <h1>{user?.signInDetails?.loginId}'s things</h1>
-      <Button onClick={createThing}>+ new</Button>
       <Button onClick={signOut} >Sign out</Button>
       </Flex>
       </div>
-      <div>
-        <Flex direction="row" alignItems="flex-start">
-        {things.map((thing) => (
-          <Card
-          variation = "elevated"
-          // onClick={() => deleteThing(thing.id)} 
-          key={thing.id}>
-            <Flex>
-              <Badge size = "small" variation = "info">Available</Badge>
+      <Tabs
+        value={tab}
+        onValueChange = {(tab) => setTab(tab)}
+        items={[
+          {
+            label: "Search",
+            value: "1",
+            content: (
+              <View>
+                Add Search Box Here
+              </View>
+            )
+          },
+          {
+            label: "Library",
+            value: "2",
+            content: (<>
+            <View id="create-thing">
+              <ThingCreateForm />;              
+            </View>
+            <Flex direction="row" alignItems="flex-start">
+            {things.map((thing) => (
+              <Card
+              variation = "elevated"
+              // onClick={() => deleteThing(thing.id)} 
+              key={thing.id}>
+                <Flex>
+                  <Badge size = "small" variation = "info">{thing.status}</Badge>
+                </Flex>
+                  
+                <Flex direction = "row" alignItems="flex-start">
+                <Flex 
+                  direction = "column"
+                  alignItems="flex-start"
+                  gap="5px">
+                <Heading level = {5}>{thing.title}</Heading>
+                <Text>{thing.content}</Text>
+                <Flex direction = "row" alignItems="flex-end">
+                <Button>Borrow</Button>
+                <Button>Lend</Button>
+                <Button>Edit</Button>
+                <Button onClick={()=>deleteThing(thing.id)}>Remove</Button>
+                </Flex>
+              {/* <select name="avail" id="avail">
+                {statusSettings.map((s) => (
+                  <option value={s}>{s}</option>
+                ))}
+              </select> */}
+              </Flex>
+              </Flex>
+              </Card>
+            )
+            )}
             </Flex>
-              
-            <Image
-            src="/test_thing.jpg"
-            alt="This is a picture of a thing I want to lend." 
-            width="100%"
-            objectPosition = "50% 50%"
-
-            />
-
-            <Flex direction = "row" alignItems="flex-start">
-            <Flex 
-              direction = "column"
-              alignItems="flex-start"
-              gap="5px">
-            <Heading level = {5}>{thing.content}</Heading>
-            <Text>This is a description of this thing I bought and only needed once.</Text>
-            <Flex direction = "row" alignItems="flex-end">
-            <Button>Borrow</Button>
-            <Button>Lend</Button>
-            <Button>Edit</Button>
-            <Button>Remove</Button>
-            </Flex>
-          {/* <select name="avail" id="avail">
-            {statusSettings.map((s) => (
-              <option value={s}>{s}</option>
-            ))}
-          </select> */}
-          </Flex>
-          </Flex>
-          </Card>
-        )
-        )}
-        </Flex>
-      </div>
+          </>)
+        },
+        {
+          label: "Borrowed",
+          value: "3",
+          content: (
+            <View><Card>Things</Card></View>
+          )
+        },
+        {
+          label: "Lent",
+          value: "4",
+          content: (
+            <View><Card>Things lent out</Card></View>
+          )
+        }
+        ]
+        }
+        />
 
     </main>
       )}

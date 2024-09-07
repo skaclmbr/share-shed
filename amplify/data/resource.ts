@@ -10,6 +10,7 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a.schema({
   Thing: a
     .model({
+      title: a.string(),
       content: a.string(),
       // location: a.string(),
       status: a.enum([
@@ -17,7 +18,9 @@ const schema = a.schema({
         "LENT",
         "UNAVAILABLE"
       ]),
+      
       img_url: a.string() //change to type url for production
+
       // visibility: a.enum([
       //   "PRIVATE",
       //   "FRIENDS_ONLY",
@@ -40,6 +43,7 @@ export const data = defineData({
     },
   },
 });
+
 
 /*== STEP 2 ===============================================================
 Go to your frontend source code. From your client-side code, generate a
