@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 // import { uploadData } from 'aws-amplify/storage';
-import { ThingCreateForm } from '../ui-components';
+import { ThingCreateForm } from '.,/ui-components';
 import { 
   Authenticator,
   Card,
@@ -89,7 +89,7 @@ function App() {
 
   const [tab, setTab] = useState('2');
 
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
 
   const [things, setThings] = useState<Array<Schema['Thing']['type']>>([]);
   // const { errors, data: newThing } = await client.models.Thing.create({
@@ -143,8 +143,14 @@ function App() {
             label: 'Library',
             value: '2',
             content: (<>
-            <View id='create-thing'>
-              <ThingCreateForm />;              
+            <View id='create-thing' maxWidth={'500px'}>
+              <ThingCreateForm 
+                overrides={{
+                  rowGap: 'xl',
+                  columnGap: 'xs',
+                  padding: 'xl',
+                }}
+              />;              
             </View>
             <Flex direction='row' alignItems='flex-start'>
             {things.map((thing) => (
