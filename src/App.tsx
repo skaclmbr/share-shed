@@ -1,8 +1,11 @@
+// @ts-ignore
 import { useEffect, useState } from 'react';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 // import { uploadData } from 'aws-amplify/storage';
-import { ThingCreateForm } from '.,/ui-components';
+
+// UI Components
+import { ThingCreateForm } from '../ui-components';
 import { 
   Authenticator,
   Card,
@@ -22,8 +25,6 @@ import {
 import '@aws-amplify/ui-react/styles.css';
 
 const client = generateClient<Schema>();
-// const statusSettings = client.enums.ThingStatus.values();
-// const visibilitySettings = client.enums.ThingVisibility.values();
 
 const theme: Theme = {
   name: 'shsh-theme',
