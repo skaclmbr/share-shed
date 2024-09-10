@@ -5,7 +5,7 @@ import { generateClient } from 'aws-amplify/data';
 // import { uploadData } from 'aws-amplify/storage';
 
 // UI Components
-import { ThingCreateForm } from '../ui-components';
+import { ThingCreateForm } from "../ui-components";
 import { 
   Authenticator,
   Card,
