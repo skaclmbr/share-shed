@@ -145,13 +145,7 @@ function App() {
             value: '2',
             content: (<>
             <View id='create-thing' maxWidth={'500px'}>
-              <ThingCreateForm 
-                overrides={{
-                  rowGap: 'xl',
-                  columnGap: 'xs',
-                  padding: 'xl',
-                }}
-              />;              
+              <ThingCreateForm />;              
             </View>
             <Flex direction='row' alignItems='flex-start'>
             {things.map((thing) => (
