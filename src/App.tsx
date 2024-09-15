@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-// import { uploadData } from 'aws-amplify/storage';
+// import { uploadData, getUrl } from 'aws-amplify/storage';
 
 // UI Components
 import { ThingCreateForm } from "../ui-components";
@@ -20,7 +20,8 @@ import {
   Button,
   ThemeProvider,
   Tabs,
-  Theme
+  Theme,
+  // DropZone,
  } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -145,7 +146,12 @@ function App() {
             value: '2',
             content: (<>
             <View id='create-thing' maxWidth={'500px'}>
-              <ThingCreateForm />;              
+              <ThingCreateForm 
+              overrides ={{
+                content: {
+                  label: 'Description'
+                }
+              }}/>;              
             </View>
             <Flex direction='row' alignItems='flex-start'>
             {things.map((thing) => (
@@ -181,6 +187,17 @@ function App() {
             )
             )}
             </Flex>
+          </>)
+        },
+        {
+          label: "About",
+          value: '3',
+          content: (<>
+          <View id='about'>
+            <p>We live in a world of disconnectedness fueled by abundance. We rely less on each other and more on companies to make things cheaper and more convenient. This fuels the American principle of consumerism. We complain both about the cost and the quality of things.</p>
+            <p>What if we lived in a world of connectedness. Where cheap things no longer clog our spaces.</p>
+            <p>ShareShed is based on the idea that the ubiqutous availability of 'things' results in over consumption and disconnection. We aim to build a community that shares.</p>
+          </View>
           </>)
         }
         ]
