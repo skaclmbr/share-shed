@@ -86,7 +86,12 @@ const theme: Theme = {
 
 //   }
 // }).result;
-
+function toTitleCase(str='') {
+  return str.replace(
+    /\w\S*/g,
+    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+  );
+}
 function App() {
 
   const [tab, setTab] = useState('2');
@@ -124,7 +129,7 @@ function App() {
 
       <div>
         <Flex direction = 'row' alignItems='flex-start'>
-      <h1>{user?.signInDetails?.loginId}'s things</h1>
+      <h1>{toTitleCase(user?.userId)}'s things</h1>
       <Button onClick={signOut} >Sign out</Button>
       </Flex>
       </div>
