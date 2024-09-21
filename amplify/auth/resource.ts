@@ -11,7 +11,7 @@ export const auth = defineAuth({
   userAttributes: {
     preferredUsername: {
       mutable: false,
-      required: true
+      required: false
     },
     profilePicture: {
       mutable: true,
@@ -19,15 +19,15 @@ export const auth = defineAuth({
     },
     phoneNumber: {
       mutable: true,
-      required: true
+      required: false
     },
     givenName: {
       mutable: true,
-      required: true
+      required: false
     },
     familyName: {
       mutable: true,
-      required: true
+      required: false
     }
   },
   multifactor: {
