@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
+import { fetchUserAttributes, signUp } from 'aws-amplify/auth';
 // import { uploadData, getUrl } from 'aws-amplify/storage';
 
 // UI Components
@@ -24,6 +25,8 @@ import {
   // DropZone,
  } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+
+await fetchUserAttributes();
 
 const client = generateClient<Schema>();
 
@@ -120,6 +123,7 @@ function App() {
     client.models.Thing.delete({ id })
   }
 
+  
   return (
       <ThemeProvider theme={theme} colorMode='light'>
     <Authenticator>
